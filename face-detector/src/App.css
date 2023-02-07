@@ -8,6 +8,15 @@
   align-items: center;
 }
 
+.tsparticles > canvas {
+  z-index: -1;
+}
+
+img {
+  z-index: 2;
+}
+
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;
