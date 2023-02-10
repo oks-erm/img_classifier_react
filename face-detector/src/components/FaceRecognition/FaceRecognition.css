@@ -1,0 +1,13 @@
+.bounding-box {
+  position: absolute;
+  border: 3px solid #31a910;
+  box-shadow: 0 0 0 3px #14a82d;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  cursor: pointer;
+}
+
+#image-container {
+  position: relative;
+}

@@ -1,18 +1,18 @@
 import react from "react";
-import Tilt from 'react-parallax-tilt';
-import face from './face.png';
-import './Logo.css';
+
 
 const Logo = () => {
     return (
-        <div className='ma4 mt0'>
-            <Tilt>
-                <div className='Tilt br2 shadow-2' options={{ max : 45}} style={{ height: 150, width: 150}}>
-                    <div className='Tilt-inner pa3'> <img src={face} alt="logo"/> </div>
-                </div>
-            </Tilt>
+        <div className="mt6">
+            <div>
+                <h1 className='center f1 white'>&#123;'&#95;'&#125;</h1>
+            </div>
+            <div>
+                <h1 className='center f2 white'>{"[ face detector ]"}</h1>
+            </div>
         </div>
+
     );
-    }
+}
 
 export default Logo;

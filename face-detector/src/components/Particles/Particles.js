@@ -41,7 +41,7 @@ const MyParticles = () => {
                         color: "#ffffff",
                         distance: 150,
                         enable: true,
-                        opacity: 0.3,
+                        opacity: 0.2,
                         width: 1,
                     },
                     collisions: {

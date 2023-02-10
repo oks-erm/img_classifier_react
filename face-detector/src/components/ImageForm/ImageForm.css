@@ -2,3 +2,8 @@
     width: 700px;
     background-color:#0a243e;
 }
+
+.text-shadow {
+    text-shadow: -12px -5px 19px #121428, 11px 2px 16px #121428, 1px 0px 20px #121428;
+    color: rgb(255, 255, 255);
+}
