@@ -8,7 +8,7 @@ const MyParticles = () => {
     }, []);
 
     const particlesLoaded = useCallback(async container => {
-        await console.log("particles loaded");
+        await container.refresh();
     }, []);
 
     return (
