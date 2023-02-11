@@ -1,9 +1,10 @@
-import React, {Component} from 'react';
-
+import React, { Component } from 'react';
 import Particles from './components/Particles/Particles';
 import Navigation from './components/Nav/Navigation';
 import FaceRecognition from './components/FaceRecognition/FaceRecognition';
 import Logo from './components/Logo/Logo';
+import SignIn from './components/SignIn/SignIn';
+import Register from './components/Register/Register';
 import ImageForm from './components/ImageForm/ImageForm';
 import Metric from './components/Metric/Metric';
 import './App.css';
@@ -23,8 +24,10 @@ class App extends Component {
       input: '',
       imageUrl: '',
       box: {},
-      }
+      route: 'signin',
+      isSignedIn: false,
     }
+  }
 
   calculateFaceLocation = (data) => {
     const clarifaiFace = JSON.parse(data).outputs[0].data.regions[0].region_info.bounding_box
@@ -40,15 +43,15 @@ class App extends Component {
   }
 
   displayFaceBox = (box) => {
-    this.setState({box: box});
+    this.setState({ box: box });
   }
 
   onInputChange = (event) => {
-    this.setState({input: event.target.value})
+    this.setState({ input: event.target.value })
   }
 
   onButtonSubmit = () => {
-    this.setState({imageUrl: this.state.input});
+    this.setState({ imageUrl: this.state.input });
     console.log(this.state.input);
     const raw = JSON.stringify({
       "user_app_id": {
@@ -82,18 +85,36 @@ class App extends Component {
       .catch(error => console.log('error', error));
   }
 
+  onRouteChange = (route) => {
+    if (route === 'signout') {
+      this.setState({ isSignedIn: false })
+    } else if (route === 'home') {
+      this.setState({ isSignedIn: true })
+    }
+    this.setState({ route: route });
+  }
+
   render() {
+    const { isSignedIn, imageUrl, route, box } = this.state;
     return (
       <div className="App">
-        <Particles/>
-        <Navigation />
-        <Logo />
-        
-        <ImageForm 
-          onInputChange={this.onInputChange} 
-          onSubmit={this.onButtonSubmit}/>
-        <Metric />
-        <FaceRecognition box={this.state.box} imageUrl={this.state.imageUrl}/>
+        <Particles />
+        <Navigation isSignedIn={isSignedIn} onRouteChange={this.onRouteChange}/>
+        {route === 'home'
+          ? <div>
+            <Logo />
+            <ImageForm
+              onInputChange={this.onInputChange}
+              onSubmit={this.onButtonSubmit} />
+            <Metric />
+            <FaceRecognition box={box} imageUrl={imageUrl} />
+          </div>
+          : (
+            route === 'signin'
+              ? <SignIn onRouteChange={this.onRouteChange} />
+              : <Register onRouteChange={this.onRouteChange} />
+          ) 
+        }
       </div>
     );
   }
