@@ -1,4 +1,6 @@
+require('dotenv').config();
 const express = require('express');
+const path = require('path');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const knex = require('knex');
@@ -12,16 +14,15 @@ const image = require('./controllers/image');
 const db = knex({
   client: 'pg',
   connection: {
-    host : '127.0.0.1',
-    user : 'postgres',
-    password : '',
-    database : 'img-classifier'
+    connectionString: process.env.DATABASE_URL,
+    ssl: true,
   }
-})
+});
 
 const app = express();
 app.use(bodyParser.json());
 app.use(cors());
+app.use(express.static(path.resolve(__dirname, '..', '..', 'face-detector', 'dist')));
 
 app.get('/', (req, res) => {res.send(db.users)})
 

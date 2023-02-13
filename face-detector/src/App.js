@@ -20,7 +20,7 @@ const MODEL_VERSION_ID = '6dc7e46bc9124c5c8824be4822abe105';
 const initialState = {
   input: '',
   imageUrl: '',
-  box: {},
+  boxes: [],
   route: 'signin',
   isSignedIn: false,
   user: {
@@ -49,20 +49,23 @@ class App extends Component {
   }
 
   calculateFaceLocation = (data) => {
-    const clarifaiFace = JSON.parse(data).outputs[0].data.regions[0].region_info.bounding_box
+    const regions = JSON.parse(data).outputs[0].data.regions;
     const image = document.getElementById('inputimage');
     const width = Number(image.width);
     const height = Number(image.height);
-    return {
-      leftCol: clarifaiFace.left_col * width + 20,
-      topRow: clarifaiFace.top_row * height + 20,
-      rightCol: width - (clarifaiFace.right_col * width) + 20,
-      bottomRow: height - (clarifaiFace.bottom_row * height) + 30
-    }
-  }
+    return regions.map(region => {
+      const clarifaiFace = region.region_info.bounding_box;
+      return {
+        leftCol: clarifaiFace.left_col * width + 20,
+        topRow: clarifaiFace.top_row * height + 20,
+        rightCol: width - (clarifaiFace.right_col * width) + 20,
+        bottomRow: height - (clarifaiFace.bottom_row * height) + 30
+      };
+    });
+  };
 
-  displayFaceBox = (box) => {
-    this.setState({ box: box });
+  displayFaceBox = (faceLocations) => {
+    this.setState({ boxes: faceLocations });
   }
 
   onInputChange = (event) => {
@@ -128,7 +131,7 @@ class App extends Component {
   }
 
   render() {
-    const { isSignedIn, imageUrl, route, box, user } = this.state;
+    const { isSignedIn, imageUrl, route, boxes, user } = this.state;
     return (
       <div className="App">
         <Particles />
@@ -139,8 +142,8 @@ class App extends Component {
             <ImageForm
               onInputChange={this.onInputChange}
               onSubmit={this.onButtonSubmit} />
-            <Metric />
-            <FaceRecognition box={box} imageUrl={imageUrl} />
+            <Metric boxes={boxes} imageUrl={imageUrl} />
+            <FaceRecognition boxes={boxes} imageUrl={imageUrl} />
           </div>
           : (
             route === 'signin'
