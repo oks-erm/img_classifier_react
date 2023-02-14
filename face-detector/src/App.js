@@ -171,7 +171,7 @@ class App extends Component {
         <main className='mt6'>
         {route === 'home'
           ? <div>
-            <Logo />
+            <Logo route={route}/>
             <ImageForm
               onInputChange={this.onInputChange}
               onSubmit={this.onButtonSubmit} />

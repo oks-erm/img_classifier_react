@@ -3,7 +3,7 @@ import './ImageForm.css';
 
 const ImageForm = ({ onInputChange, onSubmit }) => {
     return (
-        <div className='mt0'>
+        <div>
             <p className='center f3 mb3 text-shadow'>
                {"Upload your image and we'll do the rest."}
             </p>
