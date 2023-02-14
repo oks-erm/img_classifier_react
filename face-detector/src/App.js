@@ -138,17 +138,6 @@ class App extends Component {
       });
   }
 
-  // onRouteChange = (route) => {
-  //   if (route === 'signout') {
-  //     this.setState(initialState)
-  //   } else if (route === 'home') {
-  //     this.setState({ isSignedIn: true })
-  //   } else if (route.startsWith('profile/')) {
-  //     this.setState({ route: 'profile'});
-  //   } 
-  //   this.setState({ route: route });
-  // }
-
   onRouteChange = (route, id) => {
     if (route === 'signout') {
       this.setState(initialState)
