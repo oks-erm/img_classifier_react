@@ -4,9 +4,9 @@ import react from "react";
 const Metric = ({boxes, imageUrl}) => {
     return (
         <div>
-            { imageUrl == ''
+            { imageUrl === ''
             ? <div></div>
-            : boxes.length == 1 
+            : boxes.length === 1 
             ? <div className="white f3 mt2" id='result'>
                 1 face detected
             </div>

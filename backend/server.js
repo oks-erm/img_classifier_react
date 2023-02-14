@@ -10,6 +10,7 @@ const register = require('./controllers/register');
 const signin = require('./controllers/signin');
 const profile = require('./controllers/profile');
 const image = require('./controllers/image');
+const history = require('./controllers/history');
 
 const db = knex({
   client: 'pg',
@@ -31,6 +32,8 @@ app.post('/signin', signin.handleSignIn(db, bcrypt));
 app.post('/register', register.handleRegister(db, bcrypt));
 
 app.get('/profile/:id', profile.handleProfileGet(db));
+
+app.post('/history', history.handleHistoryPost(db));
 
 app.put('/image', image.handleImage(db));
 

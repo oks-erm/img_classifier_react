@@ -3,7 +3,7 @@ import react from "react";
 
 const Logo = () => {
     return (
-        <div className="mt6">
+        <div className="mt7">
             <div>
                 <h1 className='center f1 white'>&#123;'&#95;'&#125;</h1>
             </div>

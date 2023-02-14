@@ -3,7 +3,11 @@ const handleProfileGet = (db) => (req, res) => {
     db.select('*').from('users').where({ id })
         .then(user => {
             if (user.length) {
-                res.json(user[0])
+                db.select('*').from('history').where({ user_id: id })
+                    .then(history => {
+                        res.json({ user: user[0], history });
+                    })
+                    .catch(err => res.status(400).json('error getting search history'))
             } else {
                 res.status(400).json('Not found')
             }

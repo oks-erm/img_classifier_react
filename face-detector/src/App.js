@@ -6,6 +6,7 @@ import Logo from './components/Logo/Logo';
 import SignIn from './components/SignIn/SignIn';
 import Register from './components/Register/Register';
 import ImageForm from './components/ImageForm/ImageForm';
+import Profile from './components/Profile/Profile';
 import Metric from './components/Metric/Metric';
 import './App.css';
 
@@ -74,7 +75,6 @@ class App extends Component {
 
   onButtonSubmit = () => {
     this.setState({ imageUrl: this.state.input });
-    console.log(this.state.input);
     const raw = JSON.stringify({
       "user_app_id": {
         "user_id": USER_ID,
@@ -100,6 +100,7 @@ class App extends Component {
       body: raw
     };
 
+    // clarifai api call
     fetch("https://api.clarifai.com/v2/models/" + MODEL_ID + "/versions/" + MODEL_VERSION_ID + "/outputs", requestOptions)
       .then(response => response.text())
       .then((result) => {
@@ -119,14 +120,43 @@ class App extends Component {
         }
         this.displayFaceBox(this.calculateFaceLocation(result))})
       .catch(error => console.log('error', error));
+
+    // a post request to the server to save an imageurl and the date
+    fetch('http://localhost:3000/history', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        userId: this.state.user.id,
+        imageUrl: this.state.input
+      })
+    })
+      .then(res => res.json())
+      .catch(error => {
+        console.error('Error:', error);
+      });
   }
 
-  onRouteChange = (route) => {
+  // onRouteChange = (route) => {
+  //   if (route === 'signout') {
+  //     this.setState(initialState)
+  //   } else if (route === 'home') {
+  //     this.setState({ isSignedIn: true })
+  //   } else if (route.startsWith('profile/')) {
+  //     this.setState({ route: 'profile'});
+  //   } 
+  //   this.setState({ route: route });
+  // }
+
+  onRouteChange = (route, id) => {
     if (route === 'signout') {
       this.setState(initialState)
     } else if (route === 'home') {
       this.setState({ isSignedIn: true })
-    }
+    } else if (route === 'profile') {
+      console.log('profile');
+    } 
     this.setState({ route: route });
   }
 
@@ -135,7 +165,10 @@ class App extends Component {
     return (
       <div className="App">
         <Particles />
+        <header>
         <Navigation user={user} isSignedIn={isSignedIn} onRouteChange={this.onRouteChange}/>
+        </header>
+        <main className='mt6'>
         {route === 'home'
           ? <div>
             <Logo />
@@ -148,9 +181,14 @@ class App extends Component {
           : (
             route === 'signin'
               ? <SignIn loadUser={this.loadUser} onRouteChange={this.onRouteChange} />
-              : <Register loadUser={this.loadUser} onRouteChange={this.onRouteChange} />
-          ) 
-        }
+              : (
+                route === 'profile'
+                  ? <Profile user={user} onRouteChange={this.onRouteChange} />
+                  : <Register loadUser={this.loadUser} onRouteChange={this.onRouteChange} />
+              )
+          )
+          } 
+        </main>
       </div>
     );
   }
