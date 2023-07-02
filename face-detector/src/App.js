@@ -105,7 +105,7 @@ class App extends Component {
       .then(response => response.text())
       .then((result) => {
         if (JSON.parse(result).status.code === 10000) {
-          fetch('http://localhost:3000/image', {
+          fetch('https://image-classifier-4o7b.onrender.com/image', {
             method: 'put',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
@@ -122,7 +122,7 @@ class App extends Component {
       .catch(error => console.log('error', error));
 
     // a post request to the server to save an imageurl and the date
-    fetch('http://localhost:3000/history', {
+    fetch('https://image-classifier-4o7b.onrender.com/history', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
