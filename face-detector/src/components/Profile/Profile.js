@@ -9,7 +9,7 @@ class Profile extends React.Component {
     }
 
     componentDidMount() {
-        fetch('http://localhost:3000/profile/' + this.props.user.id)
+        fetch('https://image-classifier-4o7b.onrender.com/profile/' + this.props.user.id)
             .then(response => response.json())
             .then(result => this.setState({ history: result.history }));
     }
